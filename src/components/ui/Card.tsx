@@ -36,11 +36,11 @@ export function Card({
   sheen = false,
   as: Component = 'div',
 }: CardProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const hasFinePointer = useHasFinePointer();
   const sheenEnabled = sheen && hasFinePointer;
 
-  const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (event: MouseEvent<HTMLElement>) => {
     if (!sheenEnabled || !ref.current) return;
     const bounds = ref.current.getBoundingClientRect();
     ref.current.style.setProperty('--sheen-x', `${event.clientX - bounds.left}px`);
