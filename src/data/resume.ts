@@ -55,7 +55,7 @@ export const experience: ExperienceItem[] = [
 
 export const education: EducationItem[] = [
   {
-    qualification: 'Bachelor of Science in Computer Science',
+    qualification: 'Bachelor of Science in Information Technology',
     institution: 'Expected graduation 2027',
     period: '2023 to 2027',
     detail:
@@ -66,7 +66,7 @@ export const education: EducationItem[] = [
 export const certificates: Certificate[] = [
   { name: 'IT Specialist: Python', issuer: 'Certiport', year: '2025' },
   { name: 'IT Specialist: Cybersecurity', issuer: 'Certiport', year: '2025' },
-  { name: 'HealthForge 2026 Challenger', issuer: 'HealthForge', year: '2026' },
+  { name: 'HealthForge 2026: PHOENIX Hub Healthcare Innovation Challenge - Hackathon Participant', issuer: 'HealthForge', year: '2026' },
 ];
 
 /**
@@ -91,7 +91,7 @@ export const pinnedRepos: Repository[] = [
     languageColor: '#3178C6',
     stars: 0,
     forks: 0,
-    url: 'https://github.com/clarknormor/netquest',
+    url: 'https://github.com/ClarkKirby17/netquest',
   },
   {
     name: 'ar-history-explorer',

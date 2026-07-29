@@ -15,7 +15,7 @@ export default function Experience() {
     <>
       <Seo
         title="Experience & Education | Clark Kirby Normor"
-        description="Work history, Computer Science degree progress, and certifications including IT Specialist Python and Cybersecurity."
+        description="Work history, Information Technology degree progress, and certifications including IT Specialist Python and Cybersecurity."
         path="/experience"
       />
 
@@ -38,7 +38,7 @@ export default function Experience() {
               available on request.
             </p>
             <p className="text-sm text-fog-500">
-              I would rather leave this space empty than fill it with quotes nobody said.
+              
             </p>
           </Card>
         </Reveal>

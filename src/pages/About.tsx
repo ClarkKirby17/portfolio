@@ -66,8 +66,7 @@ export default function About() {
 
           <Reveal delay={0.1}>
             <p>
-              Since then I have finished four projects end to end and I am two years into a Computer
-              Science degree. I work across the stack because I like owning the whole path:
+              Since then I have finished four projects end to end and I am three years into a Information Technology degree. I work across the stack because I like owning the whole path:
               the schema, the API, the interface, the deploy. Bugs are usually born at the
               seams between those layers. My most useful skill right now is not a framework: it is
               being willing to sit with something broken until I understand why, instead of moving
