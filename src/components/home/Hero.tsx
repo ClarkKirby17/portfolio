@@ -11,14 +11,23 @@ import { EASE_SMOOTH } from '@/lib/utils';
  * technical sans/mono system. The contrast is the identity.
  */
 
+/**
+ * Entrance timing is deliberately tight.
+ *
+ * An element animating from opacity 0 does not count as a Largest Contentful
+ * Paint candidate until it actually paints, so a long staggered hero delays
+ * the headline and Chrome scores the page on whatever painted first. The
+ * sequence still reads as choreographed; it just does not cost half a second
+ * of the metric that matters most on this page.
+ */
 const container = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.12 } },
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.04 } },
 };
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE_SMOOTH } },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_SMOOTH } },
 };
 
 export function Hero() {
@@ -122,7 +131,7 @@ export function Hero() {
             </div>
 
             <img
-              src="/portrait.png"
+              src="/portrait.jpg"
               alt={`Portrait of ${profile.name}`}
               width={640}
               height={800}

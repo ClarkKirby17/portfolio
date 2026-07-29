@@ -42,7 +42,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
+        'fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]',
         scrolled
           ? 'border-b border-fog-50/[0.07] bg-ink-950/70 backdrop-blur-xl backdrop-saturate-150'
           : 'border-b border-transparent bg-transparent',
@@ -129,7 +129,12 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 top-0 z-50 bg-ink-950/95 backdrop-blur-2xl lg:hidden"
+            /* Opaque, not blurred. A backdrop-filter on a fixed inset-0 element
+               asks the compositor to blur the entire viewport, which measured
+               as several hundred milliseconds of input delay on the tap that
+               opens the menu. At 100% opacity there is nothing to see through
+               anyway. */
+            className="fixed inset-0 top-0 z-50 bg-ink-950 lg:hidden"
           >
             <div className="flex h-18 items-center justify-end px-5 sm:px-8">
               <button

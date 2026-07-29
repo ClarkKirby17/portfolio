@@ -49,7 +49,11 @@ function ContributionGrid() {
 
   return (
     <figure className="flex flex-col gap-4">
-      <div className="overflow-x-auto pb-2">
+      {/* min-w-0 is load-bearing: a scroll container inside a grid item still
+          reports its content width unless the item is allowed to shrink below
+          it. Without this the 53-column grid widens the page past the viewport
+          and mobile browsers respond by zooming the whole document out. */}
+      <div className="min-w-0 max-w-full overflow-x-auto pb-2">
         {/* Column-wise grid: 7 rows, one column per week, exactly like GitHub. */}
         <div
           className="grid grid-flow-col grid-rows-7 gap-[3px]"
@@ -66,7 +70,7 @@ function ContributionGrid() {
         </div>
       </div>
 
-      <figcaption className="flex flex-wrap items-center justify-between gap-3">
+      <figcaption className="flex min-w-0 flex-wrap items-center justify-between gap-3">
         <span className="text-sm text-fog-300">
           <span className="font-medium text-fog-50">{total.toLocaleString()}</span> contributions
           this year
@@ -123,14 +127,14 @@ export function GitHubSection() {
       />
 
       <div className="grid gap-5 lg:grid-cols-[1.5fr_1fr]">
-        <Reveal>
+        <Reveal className="min-w-0">
           <Card className="h-full p-6 sm:p-8">
             <h3 className="mb-6 text-lg font-medium text-fog-50">Contribution activity</h3>
             <ContributionGrid />
           </Card>
         </Reveal>
 
-        <Reveal delay={0.08}>
+        <Reveal delay={0.08} className="min-w-0">
           <Card className="h-full p-6 sm:p-8">
             <h3 className="mb-6 text-lg font-medium text-fog-50">Most used languages</h3>
             <LanguageBar />

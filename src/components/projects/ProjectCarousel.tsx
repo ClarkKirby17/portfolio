@@ -24,49 +24,57 @@ export function ProjectCarousel({ projects }: { projects: Project[] }) {
   const [steps, setSteps] = useState(0);
   const reducedMotion = usePrefersReducedMotion();
 
-  /** One card plus one gap: the distance a single arrow press should travel. */
-  const readStep = useCallback((element: HTMLDivElement): number => {
+  /**
+   * One card plus one gap: the distance a single arrow press should travel.
+   *
+   * Cached in a ref rather than measured on demand. getComputedStyle and
+   * offsetWidth both force the browser to flush pending layout, so calling
+   * them inside a scroll handler triggers a synchronous reflow on every
+   * frame of every swipe. Measuring once per resize costs nothing.
+   */
+  const stepRef = useRef(0);
+
+  const measure = useCallback(() => {
+    const element = scroller.current;
+    if (!element) return;
+
     const first = element.firstElementChild as HTMLElement | null;
-    if (!first) return element.clientWidth;
     const gap = Number.parseFloat(getComputedStyle(element).columnGap) || 0;
-    return first.offsetWidth + gap;
+    stepRef.current = first ? first.offsetWidth + gap : element.clientWidth || 1;
+
+    const overflow = element.scrollWidth - element.clientWidth;
+    setSteps(overflow > 1 ? Math.ceil(overflow / stepRef.current) : 0);
+    setActive(Math.round(element.scrollLeft / stepRef.current));
   }, []);
 
   const goTo = useCallback(
     (target: number) => {
       const element = scroller.current;
       if (!element) return;
-      const step = readStep(element);
       element.scrollTo({
-        left: Math.max(0, target) * step,
+        left: Math.max(0, target) * (stepRef.current || element.clientWidth),
         behavior: reducedMotion ? 'auto' : 'smooth',
       });
     },
-    [readStep, reducedMotion],
+    [reducedMotion],
   );
 
   useEffect(() => {
     const element = scroller.current;
     if (!element) return;
 
-    // How many arrow presses exist between the start and the end of the track.
-    const measure = () => {
-      const step = readStep(element);
-      const overflow = element.scrollWidth - element.clientWidth;
-      setSteps(overflow > 1 ? Math.ceil(overflow / step) : 0);
-      setActive(Math.round(element.scrollLeft / step));
-    };
-
     measure();
 
     // Derive the active card from scroll position rather than tracking it
-    // separately, so swiping, arrows and dots can never disagree.
+    // separately, so swiping, arrows and dots can never disagree. Reads only
+    // the cached step, so this stays free of layout work.
     let frame = 0;
     const onScroll = () => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
-        setActive(Math.round(element.scrollLeft / readStep(element)));
+        const step = stepRef.current || element.clientWidth || 1;
+        setActive(Math.round(element.scrollLeft / step));
       });
     };
 
@@ -79,7 +87,7 @@ export function ProjectCarousel({ projects }: { projects: Project[] }) {
       element.removeEventListener('scroll', onScroll);
       if (frame) cancelAnimationFrame(frame);
     };
-  }, [readStep, projects.length]);
+  }, [measure, projects.length]);
 
   const atStart = active <= 0;
   const atEnd = active >= steps;

@@ -53,6 +53,14 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* clip, not hidden: overflow-x hidden makes the element a scroll container,
+     which breaks position: sticky further down the tree. clip contains the
+     overflow without that side effect. */
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     background-color: var(--color-ink-950);
     color: var(--color-fog-50);
@@ -60,7 +68,6 @@
     font-feature-settings: 'ss01', 'cv05';
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
   }
 
   /* Visible, on-brand keyboard focus. Never remove without a replacement. */
@@ -111,18 +118,33 @@
    ========================================================================= */
 @layer components {
   /* The glass recipe. Subtle: 6% white, not a frosted bathroom door. */
+  /* Backdrop blur is the single most expensive thing in this stylesheet, so
+     it is used only where content genuinely scrolls behind the surface: the
+     navbar and the chat panel. Everywhere else, a slightly more opaque
+     background reads the same against a near-black page for none of the cost. */
   .glass {
-    background: color-mix(in oklab, var(--color-fog-50) 4%, transparent);
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    background: color-mix(in oklab, var(--color-fog-50) 5%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid color-mix(in oklab, var(--color-fog-50) 8%, transparent);
   }
 
   .glass-strong {
-    background: color-mix(in oklab, var(--color-ink-900) 78%, transparent);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    background: color-mix(in oklab, var(--color-ink-900) 92%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border: 1px solid color-mix(in oklab, var(--color-fog-50) 9%, transparent);
+  }
+
+  /* Phones and tablets pay the most for compositing and show the effect the
+     least. Drop it entirely below the desktop breakpoint and lean on opacity. */
+  @media (max-width: 1023px) {
+    .glass,
+    .glass-strong {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in oklab, var(--color-ink-900) 96%, transparent);
+    }
   }
 
   /* Eyebrow labels. Mono + tracking is the site's structural voice; it marks
@@ -181,26 +203,6 @@
     display: none;
   }
 
-  /* Cursor sheen as a background layer rather than an overlay element, so a
-     card's children stay direct grid or flex items. @property registers the
-     opacity as a real number, which is what makes it animatable. */
-  .card-sheen {
-    background-image: radial-gradient(
-      340px circle at var(--sheen-x, 50%) var(--sheen-y, 50%),
-      rgba(22, 196, 106, var(--sheen-opacity, 0)),
-      transparent 65%
-    );
-    transition:
-      --sheen-opacity 450ms var(--ease-smooth),
-      border-color 500ms var(--ease-smooth),
-      background-color 500ms var(--ease-smooth),
-      transform 500ms var(--ease-smooth),
-      box-shadow 500ms var(--ease-smooth);
-  }
-  .card-sheen:hover {
-    --sheen-opacity: 0.1;
-  }
-
   .skip-link {
     position: absolute;
     left: -9999px;
@@ -219,15 +221,16 @@
 /* ============================================================================
    KEYFRAMES
    ========================================================================= */
-@keyframes aurora-drift {
+/* Opacity only. Animating transform or scale on a large blurred element
+   forces a repaint of that whole layer every frame; opacity is handled by
+   the compositor and costs effectively nothing. */
+@keyframes aurora-breathe {
   0%,
   100% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.55;
+    opacity: 0.6;
   }
   50% {
-    transform: translate3d(4%, -3%, 0) scale(1.12);
-    opacity: 0.8;
+    opacity: 1;
   }
 }
 
@@ -262,7 +265,7 @@
 }
 
 .animate-aurora {
-  animation: aurora-drift 18s var(--ease-smooth) infinite;
+  animation: aurora-breathe 16s var(--ease-smooth) infinite;
 }
 .animate-caret {
   animation: caret-blink 1.1s steps(1) infinite;
@@ -271,8 +274,3 @@
   animation: typing-dot 1.2s ease-in-out infinite;
 }
 
-@property --sheen-opacity {
-  syntax: '<number>';
-  initial-value: 0;
-  inherits: false;
-}

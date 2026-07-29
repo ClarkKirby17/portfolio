@@ -17,7 +17,7 @@ export const profile = {
 
   /** Two-sentence version used for meta descriptions and the AI assistant. */
   shortBio:
-    'Junior full stack developer and Computer Science student based in Metro Manila. I work across React, TypeScript, Flutter, PHP and Unity, and I care most about making complicated things feel simple.',
+    'Junior full stack developer and Information Technology student in Valenzuela, Metro Manila. I work across React, TypeScript, Flutter, PHP and Unity, and I care most about making complicated things feel simple.',
 
   email: 'clarkkirbynormor2005@gmail.com',
   phone: '+63 951 723 0071',
