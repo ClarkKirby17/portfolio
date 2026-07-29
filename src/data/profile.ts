@@ -24,7 +24,7 @@ export const profile = {
 
   links: {
     github: 'https://github.com/ClarkKirby17',
-    linkedin: 'https://www.linkedin.com/in/clark-kirby-normor-588979393/',
+    linkedin: 'https://www.linkedin.com/in/clark-kirby-normor-588979393',
     resume: '/Clark-Kirby-Normor-Resume.pdf',
   },
 
