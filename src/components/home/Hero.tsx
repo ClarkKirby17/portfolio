@@ -152,7 +152,7 @@ export function Hero() {
                 Metro Manila
               </span>
               <span className="font-mono text-[0.6875rem] tracking-widest text-accent-bright uppercase">
-                CS · 2027
+                IT · 2027
               </span>
             </div>
           </div>
