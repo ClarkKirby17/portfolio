@@ -1,0 +1,11 @@
+Drop project screenshots here to activate the thumbnails.
+
+Expected filenames (referenced from src/data/projects.ts):
+  lumenfact.png
+  netquest.png
+  ar-history-explorer.png
+  eatsy.png
+
+Recommended: 1200x750 (16:10), WebP or optimised PNG under 200KB.
+Until a file exists, the card falls back to the project name on a dark
+panel — intentional, so a missing screenshot never renders as a broken image.

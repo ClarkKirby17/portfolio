@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://clarknormor.dev/</loc><priority>1.0</priority></url>
+  <url><loc>https://clarknormor.dev/projects</loc><priority>0.9</priority></url>
+  <url><loc>https://clarknormor.dev/projects/lumenfact</loc><priority>0.8</priority></url>
+  <url><loc>https://clarknormor.dev/projects/netquest</loc><priority>0.8</priority></url>
+  <url><loc>https://clarknormor.dev/projects/ar-history-explorer</loc><priority>0.8</priority></url>
+  <url><loc>https://clarknormor.dev/projects/eatsy</loc><priority>0.8</priority></url>
+  <url><loc>https://clarknormor.dev/about</loc><priority>0.7</priority></url>
+  <url><loc>https://clarknormor.dev/experience</loc><priority>0.7</priority></url>
+  <url><loc>https://clarknormor.dev/resume</loc><priority>0.7</priority></url>
+  <url><loc>https://clarknormor.dev/contact</loc><priority>0.6</priority></url>
+</urlset>

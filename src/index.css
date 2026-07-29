@@ -1,0 +1,278 @@
+@import 'tailwindcss';
+
+/* ============================================================================
+   DESIGN TOKENS
+   The palette is a cool near-black with a faint green cast, so the accent
+   (#048B45) reads as part of the surface rather than a sticker on top of it.
+   Green is spent on exactly three things: focus, active state, and one glow.
+   ========================================================================= */
+@theme {
+  /* Surfaces: each step is a real elevation level, not a random shade. */
+  --color-ink-950: #060809; /* page */
+  --color-ink-900: #0a0e10; /* raised section */
+  --color-ink-850: #0e1416; /* card */
+  --color-ink-800: #141b1e; /* card hover / input */
+  --color-ink-700: #1d2629; /* border on solid surfaces */
+
+  /* Text: off-white is tinted toward the accent hue so nothing looks pasted. */
+  --color-fog-50: #e9efec; /* primary */
+  --color-fog-300: #a9b5b0; /* secondary */
+  --color-fog-500: #7c8a85; /* tertiary / captions */
+
+  /* Accent */
+  --color-accent: #048b45;
+  --color-accent-bright: #16c46a; /* hover + focus only, never large fills */
+  --color-accent-dim: #036b35;
+  --color-accent-deep: #023a1e;
+
+  /* Type roles */
+  --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+  --font-sans: 'Inter Tight', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* Motion: one easing curve everywhere keeps the whole site feeling like
+     a single object. 'smooth' for entrances, 'snap' for interactions. */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --radius-card: 1.25rem;
+}
+
+/* ============================================================================
+   BASE
+   ========================================================================= */
+@layer base {
+  * {
+    border-color: color-mix(in oklab, var(--color-fog-50) 8%, transparent);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Sticky navbar is 4.5rem; anchors should not slide under it. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-ink-950);
+    color: var(--color-fog-50);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv05';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Visible, on-brand keyboard focus. Never remove without a replacement. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-bright);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 45%, transparent);
+    color: var(--color-fog-50);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-ink-950);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-700);
+    border-radius: 99px;
+    border: 2px solid var(--color-ink-950);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-deep);
+  }
+
+  /* Anyone who has asked their OS to calm down gets a calm site. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ============================================================================
+   COMPONENT UTILITIES
+   ========================================================================= */
+@layer components {
+  /* The glass recipe. Subtle: 6% white, not a frosted bathroom door. */
+  .glass {
+    background: color-mix(in oklab, var(--color-fog-50) 4%, transparent);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid color-mix(in oklab, var(--color-fog-50) 8%, transparent);
+  }
+
+  .glass-strong {
+    background: color-mix(in oklab, var(--color-ink-900) 78%, transparent);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid color-mix(in oklab, var(--color-fog-50) 9%, transparent);
+  }
+
+  /* Eyebrow labels. Mono + tracking is the site's structural voice; it marks
+     "this is metadata" everywhere it appears. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-fog-500);
+  }
+
+  /* Hairline that fades out. Used to close sections without a hard rule. */
+  .rule-fade {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--color-fog-50) 14%, transparent) 30%,
+      color-mix(in oklab, var(--color-fog-50) 14%, transparent) 70%,
+      transparent
+    );
+  }
+
+  .text-gradient {
+    background: linear-gradient(
+      160deg,
+      var(--color-fog-50) 20%,
+      color-mix(in oklab, var(--color-fog-50) 55%, var(--color-accent-bright)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Signature: a fine dot grid that only exists near the top of the page,
+     masked out so it never competes with body copy. */
+  .dot-grid {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      color-mix(in oklab, var(--color-fog-50) 10%, transparent) 1px,
+      transparent 0
+    );
+    background-size: 28px 28px;
+  }
+
+  /* Hides the native scrollbar on the carousel track. The element stays a
+     real scroll container, so swipe, momentum and keyboard scrolling all
+     still work: only the bar itself is removed. */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Cursor sheen as a background layer rather than an overlay element, so a
+     card's children stay direct grid or flex items. @property registers the
+     opacity as a real number, which is what makes it animatable. */
+  .card-sheen {
+    background-image: radial-gradient(
+      340px circle at var(--sheen-x, 50%) var(--sheen-y, 50%),
+      rgba(22, 196, 106, var(--sheen-opacity, 0)),
+      transparent 65%
+    );
+    transition:
+      --sheen-opacity 450ms var(--ease-smooth),
+      border-color 500ms var(--ease-smooth),
+      background-color 500ms var(--ease-smooth),
+      transform 500ms var(--ease-smooth),
+      box-shadow 500ms var(--ease-smooth);
+  }
+  .card-sheen:hover {
+    --sheen-opacity: 0.1;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    z-index: 999;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-ink-800);
+    color: var(--color-fog-50);
+    border-radius: 0.75rem;
+  }
+  .skip-link:focus {
+    left: 1rem;
+    top: 1rem;
+  }
+}
+
+/* ============================================================================
+   KEYFRAMES
+   ========================================================================= */
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(4%, -3%, 0) scale(1.12);
+    opacity: 0.8;
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes typing-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.animate-aurora {
+  animation: aurora-drift 18s var(--ease-smooth) infinite;
+}
+.animate-caret {
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+.animate-typing-dot {
+  animation: typing-dot 1.2s ease-in-out infinite;
+}
+
+@property --sheen-opacity {
+  syntax: '<number>';
+  initial-value: 0;
+  inherits: false;
+}

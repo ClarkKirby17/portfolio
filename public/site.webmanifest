@@ -1,0 +1,9 @@
+{
+  "name": "Clark Kirby Normor — Junior Full Stack Developer",
+  "short_name": "Clark Normor",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060809",
+  "theme_color": "#060809",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
