@@ -5,21 +5,6 @@ import { Button } from '@/components/ui/Button';
 import { profile } from '@/data/profile';
 import { EASE_SMOOTH } from '@/lib/utils';
 
-/**
- * The hero's thesis: the name is the largest thing on the page, set in a
- * serif that appears nowhere else at this size, against an otherwise
- * technical sans/mono system. The contrast is the identity.
- */
-
-/**
- * Entrance timing is deliberately tight.
- *
- * An element animating from opacity 0 does not count as a Largest Contentful
- * Paint candidate until it actually paints, so a long staggered hero delays
- * the headline and Chrome scores the page on whatever painted first. The
- * sequence still reads as choreographed; it just does not cost half a second
- * of the metric that matters most on this page.
- */
 const container = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.06, delayChildren: 0.04 } },
@@ -128,7 +113,7 @@ export function Hero() {
             </div>
 
             <img
-              src="/portrait.jpg"
+              src="/og-image.png"
               alt={`Portrait of ${profile.name}`}
               width={640}
               height={800}
