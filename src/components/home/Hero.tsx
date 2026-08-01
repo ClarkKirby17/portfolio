@@ -113,7 +113,7 @@ export function Hero() {
             </div>
 
             <img
-              src="/og-image.png"
+              src="/portrait.png"
               alt={`Portrait of ${profile.name}`}
               width={640}
               height={800}
