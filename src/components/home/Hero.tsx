@@ -41,19 +41,16 @@ export function Hero() {
       >
         {/* Copy */}
         <div className="flex flex-col gap-7">
+          {/* Availability line. A short rule replaces the pulsing dot: it marks
+              the label the same way the section headings do, without borrowing
+              the visual language of a live status indicator. */}
           <motion.div variants={item} className="flex items-center gap-3">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-bright opacity-60 [animation-duration:2.6s]" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-bright" />
-            </span>
+            <span className="h-px w-8 bg-accent/60" aria-hidden />
             <span className="eyebrow text-fog-300">{profile.availability}</span>
           </motion.div>
 
           <motion.div variants={item} className="flex flex-col gap-3">
-            <p className="font-mono text-sm text-fog-500">
-              Hello, I&apos;m
-              <span className="ml-1 inline-block h-4 w-[1.5px] translate-y-0.5 animate-caret bg-accent-bright" />
-            </p>
+            <p className="text-sm tracking-wide text-fog-500">Hello, I&apos;m</p>
 
             <h1 className="font-display text-[clamp(3rem,9vw,5.75rem)] leading-[0.95] tracking-[-0.02em] text-fog-50">
               Clark Kirby
@@ -131,7 +128,7 @@ export function Hero() {
             </div>
 
             <img
-              src="/portrait.png"
+              src="/portrait.jpg"
               alt={`Portrait of ${profile.name}`}
               width={640}
               height={800}
@@ -152,7 +149,7 @@ export function Hero() {
                 Metro Manila
               </span>
               <span className="font-mono text-[0.6875rem] tracking-widest text-accent-bright uppercase">
-                IT · 2027
+                CS · 2027
               </span>
             </div>
           </div>

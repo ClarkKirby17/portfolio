@@ -80,13 +80,6 @@ export function ChatLauncher() {
           'hover:scale-105 active:scale-95',
         )}
       >
-        {/* A single slow ring. One is an invitation; three is a notification badge. */}
-        {!open && !reducedMotion && (
-          <span
-            aria-hidden
-            className="absolute inset-0 animate-ping rounded-full border border-accent-bright/40 [animation-duration:3.5s]"
-          />
-        )}
         <AnimatePresence mode="wait" initial={false}>
           <motion.span
             key={open ? 'close' : 'open'}
